@@ -1,0 +1,14 @@
+/*
+Theme Name: Hello WordPress
+Author: Hugo
+Description: This is Hello-World-Theme
+Version: 0.0.1
+Tags: hello-world
+*/
+
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
+body {
+    background-color: burlywood;
+}

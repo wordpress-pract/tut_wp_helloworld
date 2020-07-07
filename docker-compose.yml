@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  mariadb:
+    image: mariadb:10.4
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_DATABASE: wp_db
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8000:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+
+  website:
+    image: wordpress:5.4.2-php7.2-apache
+    restart: always
+    ports:
+      - 8001:80
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: qwerty
+      WORDPRESS_DB_NAME: wp_db
+      WORDPRESS_DEBUG: 0
+    volumes:
+      # - ./wordpress:/var/www/html
+      - ./wordpress/wp-content:/var/www/html/wp-content
+      # - ./wordpress/wp-config.php:/var/www/html/wp-config.php
+    depends_on:
+      - mariadb
+
+  website_2:
+    image: php:apache
+    restart: always
+    ports:
+      - 8002:80
+    volumes:
+      - ./wordpress:/var/www/html
+    depends_on:
+      - mariadb
