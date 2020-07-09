@@ -9,7 +9,7 @@ Author URI: https://udemy.com
 Text Domain: recipe
 */
 
-if( !function_exists( 'add_action' ) ){
+if (!function_exists('add_action')) {
     echo "Hi there! I'm just a plugin";
     exit;
 }
@@ -19,11 +19,11 @@ if( !function_exists( 'add_action' ) ){
 
 
 // Includes
-include( 'includes/activate.php' );
-
+include('includes/activate.php');
+include('includes/init.php');
 
 // Hooks
-register_activation_hook( __FILE__, 'r_activate_plugin');
-
+register_activation_hook(__FILE__, 'r_activate_plugin');
+add_action('init', 'recipe_init'); // Help to setup the plugin
 
 // Shortcodes
