@@ -1,1 +1,3 @@
-console.log('hello');
+// Main File
+import './recipe-block';
+
