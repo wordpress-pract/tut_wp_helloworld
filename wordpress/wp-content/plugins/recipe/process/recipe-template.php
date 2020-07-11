@@ -6,6 +6,8 @@
             class="rateit"
             data-recipe-resetable="false"
             data-rid="RECIPE_ID"
+            READONLY_PLACEHOLDER
+            data-rateit-value="RECIPE_RATING"
         ></div>
     </li>
 </ul>
