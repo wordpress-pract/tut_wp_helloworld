@@ -5,7 +5,7 @@ import './editor.scss';
 
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
-const { InspectorControls, BlockControls, AlignmentToolbar } = wp.editor;
+const { InspectorControls, BlockControls, AlignmentToolbar, BlockAlignmentToolbar } = wp.editor;
 const { PanelBody, PanelRow, TextControl, SelectControl } = wp.components;
 
 registerBlockType('udemy/recipe', {
@@ -57,6 +57,17 @@ registerBlockType('udemy/recipe', {
         },
         text_alignment: {
             type: 'string',
+        },
+        block_alignment: {
+            type: 'string',
+            default: 'wide',
+        }
+    },
+    getEditWrapperProps: ({block_alignment}) => {
+        if( 'left' == block_alignment || 'right' == block_alignment || 'full' == block_alignment) {
+            return {
+                'data-align': block_alignment
+            }
         }
     },
     edit: (props) => {
@@ -82,6 +93,10 @@ registerBlockType('udemy/recipe', {
 
         const updateTextAlignment = (new_val)=>{
             props.setAttributes({ text_alignment: new_val })
+        };
+
+        const updateBlockAlignment = (new_val)=>{
+            props.setAttributes({ block_alignment: new_val })
         };
 
         return (
@@ -140,6 +155,10 @@ registerBlockType('udemy/recipe', {
                 </InspectorControls>,
                 <div className={props.className}>
                     <BlockControls>
+                        <BlockAlignmentToolbar 
+                            value={props.attributes.block_alignment}
+                            onChange={updateBlockAlignment}
+                        />
                         <AlignmentToolbar
                             value={props.attributes.text_alignment}
                             onChange={updateTextAlignment}
@@ -173,7 +192,7 @@ registerBlockType('udemy/recipe', {
     },
     save: (props) => {
         return (
-            <div>
+            <div className={ `align${props.attributes.block_alignment}` }>
                 <ul class="list-unstyled" style={{ textAlign: props.attributes.text_alignment }}>
                     <li>
                         <strong>{__('Ingredients', 'recipe')}: </strong>
