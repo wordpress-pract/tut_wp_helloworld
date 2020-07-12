@@ -1,6 +1,7 @@
 // console.log(wp);
 
 import block_icons from '../icons/index';
+import './editor.scss';
 
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
