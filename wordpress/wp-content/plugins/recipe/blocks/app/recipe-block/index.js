@@ -5,7 +5,7 @@ import './editor.scss';
 
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
-const { InspectorControls } = wp.editor;
+const { InspectorControls, BlockControls, AlignmentToolbar } = wp.editor;
 const { PanelBody, PanelRow, TextControl, SelectControl } = wp.components;
 
 registerBlockType('udemy/recipe', {
@@ -54,6 +54,9 @@ registerBlockType('udemy/recipe', {
             source: 'text',
             default: 'Breakfast',
             selector: '.meal-type-ph'
+        },
+        text_alignment: {
+            type: 'string',
         }
     },
     edit: (props) => {
@@ -75,6 +78,10 @@ registerBlockType('udemy/recipe', {
 
         const updateMealType = (new_val)=>{
             props.setAttributes({ meal_type: new_val })
+        };
+
+        const updateTextAlignment = (new_val)=>{
+            props.setAttributes({ text_alignment: new_val })
         };
 
         return (
@@ -132,7 +139,13 @@ registerBlockType('udemy/recipe', {
                     </PanelBody>
                 </InspectorControls>,
                 <div className={props.className}>
-                    <ul class="list-unstyled">
+                    <BlockControls>
+                        <AlignmentToolbar
+                            value={props.attributes.text_alignment}
+                            onChange={updateTextAlignment}
+                        />
+                    </BlockControls>
+                    <ul class="list-unstyled" style={{ textAlign: props.attributes.text_alignment }}>
                         <li>
                             <strong>{__('Ingredients', 'recipe')}: </strong>
                             <span className='ingredients-ph'>{ props.attributes.ingredients }</span>
@@ -161,7 +174,7 @@ registerBlockType('udemy/recipe', {
     save: (props) => {
         return (
             <div>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled" style={{ textAlign: props.attributes.text_alignment }}>
                     <li>
                         <strong>{__('Ingredients', 'recipe')}: </strong>
                         <span className='ingredients-ph'>{ props.attributes.ingredients }</span>
